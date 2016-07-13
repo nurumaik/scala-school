@@ -1,6 +1,6 @@
 package lectures.operators
 
-import lectures.functions.Data
+import lectures.functions.{Computation, CurriedComputation, Data, FunctionalComputation}
 
 /**
   * В задачке из lectures.functions.Computations, мы реализовали
@@ -18,28 +18,34 @@ object EvaluateOptimization extends App with Data {
   val startTimestamp = System.currentTimeMillis()
 
 
-  // ВЫПОЛНИТЬ В ЦИКЛЕ  ОТ 1 ДО 100 Computation.computation(
-  //    for(??? <- ???) {
-  //    print("elapsed time in Computation.computation" + (System.currentTimeMillis() - startTimestamp))
-  //   }
+  //   ВЫПОЛНИТЬ В ЦИКЛЕ  ОТ 1 ДО 100 Computation.computation(
+  for(_ <- 1 to 100) {
+    Computation.computation(filterData, dataArray)
+    println("elapsed time in Computation.computation" + (System.currentTimeMillis() - startTimestamp))
+  }
 
-  // ВЫПОЛНИТЬ В ЦИКЛЕ  ОТ 1 ДО 100 CurriedComputation.partiallyAppliedCurriedFunction(
-  //    for(??? <- ???) {
-  //     ???
-  //    print("elapsed time " + (System.currentTimeMillis() - startTimestamp))
-  //   }
+  //   ВЫПОЛНИТЬ В ЦИКЛЕ  ОТ 1 ДО 100 CurriedComputation.partiallyAppliedCurriedFunction(
+  val curriedStart = System.currentTimeMillis()
+  for(_ <- 1 to 100) {
+    CurriedComputation.partiallyAppliedCurriedFunction(dataArray)
+    println("elapsed time " + (System.currentTimeMillis() - startTimestamp))
+  }
 
-  // ВЫПОЛНИТЬ В ЦИКЛЕ  ОТ 1 ДО 100 FunctionalComputation.filterApplied
-  //    for(??? <- ???) {
-  //     ???
-  //    print("elapsed time " + (System.currentTimeMillis() - startTimestamp))
-  //   }
+  //   ВЫПОЛНИТЬ В ЦИКЛЕ  ОТ 1 ДО 100 FunctionalComputation.filterApplied
+  val curriedEnd = System.currentTimeMillis()
+  val funcStart = curriedEnd
+  for(_ <- 1 to 100) {
+    FunctionalComputation.filterApplied(dataArray)
+    println("elapsed time " + (System.currentTimeMillis() - startTimestamp))
+  }
 
-  // ВЫВЕСТИ РАЗНИЦУ В ПРОДОЛЖИТЕЛЬНОСТИ ВЫПОЛНЕНИЯ МЕЖДУ КАРРИРОВАННОЙ ВЕРСИЕЙ
-  // И ФУНКЦИОНАЛЬНОЙ
+  val funcEnd = System.currentTimeMillis()
 
-  //  val diff = ???
+  //   ВЫВЕСТИ РАЗНИЦУ В ПРОДОЛЖИТЕЛЬНОСТИ ВЫПОЛНЕНИЯ МЕЖДУ КАРРИРОВАННОЙ ВЕРСИЕЙ
+  //   И ФУНКЦИОНАЛЬНОЙ
 
-  ///  print(s"Difference is about $diff milliseconds")
+  val diff = ((curriedEnd - curriedStart).toInt - (funcEnd - funcStart).toInt) / 100
+
+  println(s"Difference is about $diff milliseconds")
 }
 
